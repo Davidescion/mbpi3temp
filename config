@@ -1,0 +1,155 @@
+# i3 config file (v4) davidescion edit
+
+#font //i use cherry regular because its very readable
+font pango:Hermit medium 9
+
+# Definitions
+# set $mod Mod4 # Mod4 is super or windows key or command Mod1 is alt or option
+set $term /usr/local/bin/st
+set $ws1 "1. Terminals"
+set $ws2 "2. Qutebrowser"
+set $ws3 "3. Weechat"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+# You should probably edit those
+
+# start a terminal
+bindsym Mod4+Return exec $term
+
+# kill focused window
+bindsym Mod4+q kill
+
+# start program launcher
+bindsym Mod4+space exec dmenu_run # ideal for mac users
+
+# move focus
+bindsym Mod4+Left focus left
+bindsym Mod4+Down focus down
+bindsym Mod4+Up focus up
+bindsym Mod4+Right focus right
+
+# move focused window
+bindsym Mod4+Shift+Left move left
+bindsym Mod4+Shift+Down move down
+bindsym Mod4+Shift+Up move up
+bindsym Mod4+Shift+Right move right
+
+# split in horizontal orientation
+bindsym Mod4+h split h
+
+# split in vertical orientation
+bindsym Mod4+v split v
+
+# enter fullscreen mode for the focused container
+bindsym Mod4+f fullscreen toggle
+
+# move the currently focused window to the scratchpad
+bindsym Mod4+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym Mod4+minus scratchpad show
+
+# switch to workspace
+bindsym Mod4+1 workspace $ws1
+bindsym Mod4+2 workspace $ws2
+bindsym Mod4+3 workspace $ws3
+bindsym Mod4+4 workspace $ws4
+bindsym Mod4+a workspace $ws4
+bindsym Mod4+5 workspace $ws5
+bindsym Mod4+6 workspace $ws6
+bindsym Mod4+7 workspace $ws7
+bindsym Mod4+8 workspace $ws8
+bindsym Mod4+9 workspace $ws9
+bindsym Mod4+0 workspace $ws10
+
+
+# move focused container to workspace
+bindsym Mod4+Shift+1 move container to workspace $ws1
+bindsym Mod4+Shift+2 move container to workspace $ws2
+bindsym Mod4+Shift+3 move container to workspace $ws3
+bindsym Mod4+Shift+4 move container to workspace $ws4
+bindsym Mod4+Shift+5 move container to workspace $ws5
+bindsym Mod4+Shift+6 move container to workspace $ws6
+bindsym Mod4+Shift+7 move container to workspace $ws7
+bindsym Mod4+Shift+8 move container to workspace $ws8
+bindsym Mod4+Shift+9 move container to workspace $ws9
+bindsym Mod4+Shift+0 move container to workspace $ws10
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3 or config file)
+bindsym Mod4+Shift+r restart
+# exit i3 (logs you out of your X session) //might swap this for dmenu at some point
+bindsym Mod4+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Start i3bar to display a workspace bar (plus the system information i3status)
+bar {
+        status_command ~/.i3/bar.sh
+        #i3bar colors you might need to change those
+        colors{
+                #                  border             background         text
+                focused_workspace  #000000            #000000            #ffffff
+                inactive_workspace #1D241D            #1D241D            #ffffff
+}
+}
+
+# ricing aka colors aka I ain't fixin' this if it breaks
+# window colors which you might need to change
+#                       border              background         text                 indicator
+client.focused          #1D241D             #1D241D            #ffffff              #423638
+client.focused_inactive #1D241D             #1D241D            #ffffff              #423638
+
+# execs 
+exec nitrogen --restore
+#exec_always --no-startup-id feh --bg-fill ~/Wallpapers/lol.png #change this to your background if you don't want to use mine
+exec $term #leave this alone
+exec $term #leave this alone
+#exec qutebrowser #you might wanna change this if your browser isn't qutebrowser
+exec firefox-bin #you might wanna change this if your browser isn't qutebrowser
+exec_always "setxkbmap -layout it" #you probably don't need this or need it for your shitty layout
+exec $term -e weechat -c weechat #you might wanna change this to work with your chatting client
+exec ~/.i3/compton.sh
+
+# assigns
+assign[class="qutebrowser"]$ws2
+assign[class="Firefox"]$ws2
+assign[class="vlc"]$ws4
+assign[class="weechat"]$ws3
+
+
+# screenshot // will probably convert to a better screenshooter soon-ish
+bindsym Mod4+Shift+s exec xfce4-screenshooter
+
+# media keys
+bindsym XF86MonBrightnessUp exec ~/.i3/backlight/dispup.sh # increase screen brightness
+bindsym XF86MonBrightnessDown exec ~/.i3/backlight/dispdown.sh # decrease screen brightness
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioMute exec sudo amixer sset Master 0%
+bindsym XF86AudioLowerVolume exec sudo amixer sset Master 5%-
+bindsym XF86AudioRaiseVolume exec sudo amixer sset Master 5%+
+bindsym XF86KbdBrightnessUp exec ~/.i3/backlight/kbup.sh #increase keyboard brightness
+bindsym XF86KbdBrightnessDown exec ~/.i3/backlight/kbdown.sh #decrease keyboard brightness
+
+# super+tab equivalent
+bindsym Mod4+Tab focus right
+
+# binding for the mounting script
+bindsym Mod4+Shift+m exec ~/.i3/mountingscript.sh
+
+# borders fix
+for_window [class="^.*"] border pixel 1
+
+# sins aka gaps
+gaps outer 5
+gaps inner 10
+
+#vlc 4 pro codah bullshit //this is just something I use because I use a lot vlc when text editing
+for_window [class="vlc"] floating enable
+floating_maximum_size 640x480
+
