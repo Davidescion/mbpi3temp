@@ -1,2 +1,0 @@
-# mbpi3temp
-temp
